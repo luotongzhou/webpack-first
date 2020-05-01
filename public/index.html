@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<% if(htmlWebpackPlugin.options.config.header) { %>
+		<link rel="stylesheet" type="text/css" href="/common/header.css" />
+		<% } %>
+		<title><%= (htmlWebpackPlugin.options.config.title) %></title>
+	</head>
+	<body>
+		<% if(htmlWebpackPlugin.options.config.header) { %>
+		<script src="/common/header.min.js" type="text/javascript"></script>
+		<header class="header">header</header>
+		<% } %>
+		<h3 class="bg">webpack</h3>
+		<div class="flexbox">flex box</div>
+		<img src="<%= require('../src/img/cover.png') %>" />
+	</body>
+</html>
