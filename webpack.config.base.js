@@ -9,7 +9,7 @@ const isDev = process.env.NODE_ENV === 'development'
 const config = require('./public/config')[isDev ? 'dev' : 'build']
 
 module.exports = {
-	mode: isDev ? 'development' : 'production',
+	mode: 'development',
 	devtool: 'cheap-module-eval-source-map',
 	entry: {
 		index: './src/index.js',
@@ -17,8 +17,14 @@ module.exports = {
 	},
 	output: {
 		path: path.resolve(__dirname, 'dist'), //必须是绝对路径
-		filename: 'bundle.[hash:6].js'
-		// publicPath: "./", //通常是CDN地址
+		filename: '[name].[hash:6].js',
+		publicPath: isDev ? '/' : '' //通常是CDN地址
+	},
+	resolve: {
+		modules: ['./src', 'node_modules'],
+		alias: {
+			'@': path.resolve(__dirname, 'src')
+		}
 	},
 	module: {
 		rules: [
@@ -88,6 +94,7 @@ module.exports = {
 			template: './public/index.html',
 			filename: 'index.html', //打包后的文件名
 			config: config.template,
+			chunks: ['index'],
 			minify: {
 				removeAttributeQuotes: false, //是否删除属性的双引号
 				collapseWhitespace: false //是否折叠空白
@@ -97,6 +104,7 @@ module.exports = {
 		new HtmlWebpackPlugin({
 			template: './public/login.html',
 			filename: 'login.html', //打包后的文件名
+			chunks: ['login'],
 			minify: {
 				removeAttributeQuotes: false, //是否删除属性的双引号
 				collapseWhitespace: false //是否折叠空白
@@ -125,15 +133,5 @@ module.exports = {
 		}),
 		new OptimizeCssPlugin(),
 		new webpack.HotModuleReplacementPlugin()
-	],
-	devServer: {
-		port: '3000', //默认是8080
-		quiet: false, //默认不启用
-		inline: true, //默认开启 inline 模式，如果设置为false,开启 iframe 模式
-		stats: 'errors-only', //终端仅打印 error
-		overlay: false, //默认不启用
-		clientLogLevel: 'silent', //日志等级
-		compress: true, //是否启用 gzip 压缩
-		hot: true
-	}
+	]
 }
