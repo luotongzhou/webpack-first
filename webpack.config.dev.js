@@ -1,4 +1,5 @@
 const path = require('path')
+const HardSourceWebpackPlugin = require('hard-source-webpack-plugin')
 const { smart } = require('webpack-merge')
 const base = require('./webpack.config.base')
 const apiMocker = require('mocker-api')
@@ -16,6 +17,7 @@ module.exports = smart(base, {
 		clientLogLevel: 'silent', //日志等级
 		compress: true, //是否启用 gzip 压缩
 		hot: true,
+		contentBase: path.resolve(__dirname, 'dist'),
 		proxy: {
 			// '/api': {
 			// 	target: 'http://localhost:4000',
@@ -35,6 +37,11 @@ module.exports = smart(base, {
 		new webpack.DefinePlugin({
 			DEV: JSON.stringify('dev'), //字符串
 			FLAG: 'true' //FLAG 是个布尔类型
-		})
+		}),
+		new HardSourceWebpackPlugin.ExcludeModulePlugin([
+			{
+				test: /mini-css-extract-plugin[\\/]dist[\\/]loader/
+			}
+		])
 	]
 })

@@ -9,7 +9,7 @@ module.exports = {
   build: {
       template: {
           title: '你好才怪',
-          header: false,
+          header: true,
           footer: false
       }
   }
