@@ -90,12 +90,15 @@ module.exports = {
 						loader: 'babel-loader',
 						options: {
 							presets: ['@babel/preset-env', '@babel/preset-react'],
-							// customize: require.resolve('babel-preset-react-app/webpack-overrides'),
 							plugins: [
 								[
 									'@babel/plugin-transform-runtime',
 									{
-										corejs: 3
+										corejs: {
+											version: 3,
+											proposals: true
+										},
+										version: '^7.9.6' //babel-runtime version
 									}
 								]
 							]
